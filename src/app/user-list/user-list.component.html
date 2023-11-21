@@ -1,20 +1,48 @@
-<div class="container">
-  <div class="row text-center">
-    <div class="col-12">
-      <h1>Lista de usuarios</h1>
+<div class="p-4">
+  <div class="card p-4">
+    <div class="row text-center">
+      <div class="col-12">
+        <h1>Lista de usuarios</h1>
+      </div>
+      <div class="col-12">
+        <p class="font-italic">Busqueda por nombre o correo electrónico</p>
+      </div>
+      <div class="col-10">
+        <input
+          [(ngModel)]="searchPipe"
+          type="text"
+          class="form-control px-4"
+          placeholder="Buscar"
+          aria-label="serach"
+        />
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary btn-sm" (click)="getUsers()">
+          Cargar usuarios
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="clearUsers()">
+          Limpiar
+        </button>
+      </div>
+      <div class="col-12 py-4" id="miDiv">
+        <ng-container *ngIf="listUsers.length; else noResults">
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              *ngFor="
+                let user of listUsers | filterByUserName : searchPipe;
+                let i = index
+              "
+            >
+              <p># {{ i + 1 }} - {{ user.name }} - {{ user.email }}</p>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
     </div>
-    <div class="col-12">
-      <p class="font-italic">Busqueda por nombre</p>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Buscar"
-        aria-label="serach"
-      />
-    </div>
-  </div>
-
-  <div class="row">
-
   </div>
 </div>
+
+<ng-template #noResults>
+  <p>No hay resultados</p>
+</ng-template>
